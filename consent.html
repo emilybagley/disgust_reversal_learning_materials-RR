@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Consent</title>
+    <script src="jatos.js"></script>
+    <script src="https://unpkg.com/jspsych@7.3.3"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-button-response@1.1.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-image-keyboard-response@1.1.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-slider-response@1.1.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-preload@1.1.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-instructions@1.1.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-survey-multi-select@1.1.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-survey-likert@1.1.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-survey-multi-choice@1.1.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-audio-button-response@1.1.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-call-function@1.1.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-survey-text@1.1.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-survey-html-form@1.0.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-survey@0.2.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-fullscreen@1.1.2"></script>
+    <link href="https://unpkg.com/jspsych@7.3.3/css/jspsych.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src = "https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
+    
+    <style>
+    </style>
+  </head>
+  <body></body>
+  <script>
+      /* initiliase jsPsych  and preload stimuli*/
+      var jsPsych = initJsPsych({
+          on_trial_start: jatos.addAbortButton,
+          on_finish: function(){
+            //jatos.startNextComponent(jsPsych.data.get().json())
+            window.onbeforeunload = null;
+            let trialsJson = jsPsych.data.get().json();
+            jatos.submitResultData(trialsJson, jatos.startNextComponent);
+          } ,
+         /* on_finish: function() {
+              jsPsych.data.displayData();} //allows you to view data at the end of the experiment - useful for testing the task*/
+      });
+
+      var timeline = [];
+
+      var welcome = {
+        type: jsPsychHtmlButtonResponse,
+        stimulus: '<p style="font-size:2em;line-height:1.2;color:#9ec1cf"><b>Welcome to the experiment.</b></p>'+
+                    '<p style="font-size:1.5em;line-height:1.2;max-width:1440px">In order to complete the main component of the experiment, you will be required to make mouse clicks. '+
+                    'Please switch to a computer or laptop if you are not using one already (you will be able to use the same link). '+
+                    `<p style="font-size:1.5em;line-height:1.2;max-width:1440px"> You will also need to wear headphones for the duration of the experiment. </p>`+
+                    '<p style="font-size:1.5em;line-height:1.2;max-width:1440px">If you do not have access to such devices, please return to Prolific and click <span style="color:#ff6663">"Stop without completing"</span> so we can offer your place to someone else.</p>',
+        choices: ['Continue']    
+      }
+      timeline.push(welcome) 
+
+      var init_message = {
+            type: jsPsychHtmlButtonResponse,
+            stimulus: '<div style="font-size:1.25em;line-height:1.5;max-width:1440px;">'+
+                        '<p><b>On the next page, you will be shown an information sheet.</b></p>'+
+                            '<p>This document contains information about the aims of this experiment, and what you will be required to do. '+
+                            'It will also tell you how your data will be collected and stored, and who you can contact should you have any additional concerns.</p>'+
+                        '<p>Please read this information carefully, and download the PDF for your records if you wish.</p>'+
+                        '</div>',
+            choices: ['Continue']
+        };
+        timeline.push(init_message)
+
+        var consent = {
+                type: jsPsychSurveyHtmlForm,
+                html: '<p style="font-size:1.25em"><em>Please read through the document, tick the box underneath the document (at the bottom of the webpage) to confirm you have read it'+
+                            ', and then press Next to continue.</em></p>'+
+                        '<div>'+
+                        '<object data="documents/PIS.pdf" type="application/pdf" style="width:80vw;height:70vh"></object>'+
+                        '</div>'+
+                        '<p style="font-size:1.25em">'+
+                        '<input type="checkbox" id="consent" name="consent" value="consent_tick" required>'+
+                            '<label style="margin-left:0.5em" for="consent">I confirm that I have read and understand the volunteer information contained in the above document.</label>'+
+                        '</p>',
+                button_label: 'Next',
+                checkbox_required: true,
+                list_questions: true,
+                required_message: 'Please tick this box to proceed with the experiment. If after reading the information sheet you no longer wish to take part, please return to Prolific '+
+                'and select "Stop without completing" so that we can offer your place on this study to someone else.'
+}; 
+    timeline.push(consent)
+
+
+    var  consent2 = { 
+        type: jsPsychSurveyHtmlForm,
+        html: '<div style="width: 100%; display: flex; flex-direction:row;justify-content:center;margin-bottom:2em">'+
+                            '<img src="documents/cbu_header.png" </div>' +
+                        '</div>'+
+                        '</div>'+
+                        '<div style="font-size:1.25em;line-height:1.5;text-align:justify;max-width:1440px;padding-left:1em;padding-right:1em">'+
+                        '<h2 style="font-size:1.5em;text-align:center;line-height:1">CBU ADULT INFORMED CONSENT: WEB-BASED STUDY</h2>'+
+                        '<p style="font-size:1.35em;text-align:center;line-height:1"><em>Study Title: Investigating brain and body responses to food</em></p>'+
+                        '<p style="margin-bottom:3em;text-align:center"><span><em>Principal Investigator</em>: Dr Camilla Nord</span>'+
+                        '<span style="margin-left:1.5em"><em>Lead Investigator</em>: Emily Bagley</span>'+
+                        '<span style="margin-left:1.5em"><em>CPREC Code</em>: PRE.2023.078</span>'+
+                        '<p><input type="checkbox" id="consent3" name="consent" value="consent_tick" required '+
+                            'oninvalid="this.setCustomValidity(\'You must tick all boxes to proceed with the experiment. If you no longer wish to take part, please return to Prolific '+
+                            'and select &#34;Stop without completing&#34 so that we can offer your place on this study to someone else.\')" onchange="this.setCustomValidity(\'\')">'+
+                            '<label style="margin-left:0.5em" for="consent2">I confirm that I have read and understood the volunteer information on the previous page. '+
+                            '<p>Click <a href="documents/PIS.pdf" target="blank">here</a> to view the information sheet again. </label></p>'+
+
+                        '<p><input type="checkbox" id="consent3" name="consent" value="consent_tick" required '+
+                            'oninvalid="this.setCustomValidity(\'You must tick all boxes to proceed with the experiment. If you no longer wish to take part, please return to Prolific '+
+                            'and select &#34;Stop without completing&#34 so that we can offer your place on this study to someone else.\')" onchange="this.setCustomValidity(\'\')">'+
+                            '<label style="margin-left:0.5em" for="consent2">I understand that I can ask questions by contacting the Lead Investigator (Emily Bagley, emily.bagley@mrc-cbu.cam.ac.uk).</label></p>'+
+
+                        '<p><input type="checkbox" id="consent4" name="consent" value="consent_tick" required '+
+                            'oninvalid="this.setCustomValidity(\'You must tick all boxes to proceed with the experiment. If you no longer wish to take part, please return to Prolific '+
+                            'and select &#34;Stop without completing&#34 so that we can offer your place on this study to someone else.\')" onchange="this.setCustomValidity(\'\')">'+
+                            '<label style="margin-left:0.5em" for="consent3">I understand that my participation is voluntary. I am free to withdraw at any time, without giving a reason, '+
+                            'without penalty or affecting my legal rights.</label></p>'+
+
+                        '<p><input type="checkbox" id="consent5" name="consent" value="consent_tick" required '+
+                            'oninvalid="this.setCustomValidity(\'You must tick all boxes to proceed with the experiment. If you no longer wish to take part, please return to Prolific '+
+                            'and select &#34;Stop without completing&#34 so that we can offer your place on this study to someone else.\')" onchange="this.setCustomValidity(\'\')">'+
+                            '<label style="margin-left:0.5em" for="consent6">I also understand that once my research data has been fully anonymised it may not be possible to remove this data from the study, '+
+                                'even if I subsequently ask to withdraw.</label></p>'+
+
+                        '<p><input type="checkbox" id="consent7" name="consent" value="consent_tick" required '+
+                            'oninvalid="this.setCustomValidity(\'You must tick all boxes to proceed with the experiment. If you no longer wish to take part, please return to Prolific '+
+                            'and select &#34;Stop without completing&#34 so that we can offer your place on this study to someone else.\')" onchange="this.setCustomValidity(\'\')">'+
+                            '<label style="margin-left:0.5em" for="consent5">I understand that my anonymised research data may be used to support other research in the future,'+
+                            'and may be shared with other academic and commercial researchers external to the project within the UK and beyond.'+
+                            ' On the other hand, any personally identifiable data will be kept confidential in accordance with data protection guidelines.</label></p>'+
+                        '</div>',
+                button_label_next: ['Next'],
+                button_label_back: ['Back'],
+                list_questions: true
+        };
+    timeline.push(consent2)
+    
+    var take_part = {
+        type: jsPsychSurveyHtmlForm,
+        html: '<div>'+
+                '<p style="font-size:1.75em;margin-bottom:2.5em">Do you wish to take part in this study?</p>'+
+                '<p style="font-size:1.25em">'+
+                    '<input type="radio" id="YES" name="takepart" value="study_yes" required>'+
+                    '<label style="margin-left:0.5em;margin-right:2em" for="YES">Yes, I read the information sheet, checked the boxes on the previous page myself, and agree to take part in the study.</label>'+
+                '</p>'+
+                '<p style="font-size:1.25em">'+
+                    '<input type="radio" id="NO" name="takepart" value="study_no">'+
+                        '<label style="margin-left:0.5em;" for="NO">No, I do not agree to take part in this study.</label>'+
+                '</p>'+
+                '</div>',
+        button_label: 'Continue',
+        on_finish: function(data) {
+        takepart = jsPsych.data.get().last(1).values()[0].response.takepart;
+            if (takepart.includes('study_yes')) {
+            data.take_part = 1
+            } else {
+            data.take_part = 0
+            }
+        }
+    };
+timeline.push(take_part)
+
+var stop_leave = {
+    conditional_function: function() {
+    var take_part = jsPsych.data.get().last(1).values()[0].take_part;
+    if (take_part) {
+      return false
+    } else {
+        return true
+      }
+  },
+  timeline: [
+    {
+      type: jsPsychHtmlKeyboardResponse,
+      stimulus: '<h2 style="font-size:2em;line-height:1.2;color:#9ec1cf">You have indicated you do not wish to take part, and so will be unable to continue with the study.</h2>'+
+                '<p style="font-size:1.25em;line-height:1.2;">Please return to Prolific and click <span style="color:#ff6663">"Stop without completing"</span> so that we are able to offer your place to someone else. Thank you!</p>',
+      choices: ["NO_KEYS"]
+    }
+  ]
+};
+timeline.push(stop_leave)
+
+    var disclaimer = {
+        type: jsPsychHtmlButtonResponse,
+        stimulus: '<div style="font-size:1.25em;line-height:1.5;max-width:1440px;">'+
+                    '<h2 style="font-size:1.5em;margin-bottom:1em;text-align:center">Disclaimer</h2>'+
+                    '<p>During this study, you will be asked questions regarding your mental and physical health. We understand that sometimes answering these questions '+
+                        'can make people aware of problems that they may be having with their health. Please think carefully about this before deciding to take part in this study, '+
+                        'as we are unable to provide any support for health issues you do report during this study. If you do have any concerns about your health, please contact your '+
+                        'doctor (if in the UK, your GP), who can direct you to the appropriate local clinical service.</p>'+
+                    '<p> If you have any questions, please contact the Lead Investigator, Emily Bagley either through Prolific Message or email (emily.bagley@mrc-cbu.cam.ac.uk).</p>'+
+                    '</div>',
+        choices: ['Next']
+};
+timeline.push(disclaimer)
+
+var consent_vid ={
+        type: jsPsychSurveyHtmlForm,
+        html: `<p> During this experiment, you will have to watch some 'emotional' videos. Before you do this, we would like you to watch some low intensity versions of these videos. </p>
+                <p> Click play to watch the videos </p>
+                <video style="width: 400px; height: 400px;" controls> 
+                    <source src="reversal_learning_stim/US/disgust/1259.mp4" type="video/mp4"/>
+                    </video>
+                <video style="width: 400px; height: 400px;" controls> 
+                    <source src="reversal_learning_stim/US/fear/1279.mp4" type="video/mp4"/>
+                    </video>
+                    <br>
+                    <br>`,
+        button_label: 'Next',
+        list_questions: true
+    }
+   timeline.push(consent_vid)
+
+    var take_part_redo = {
+        type: jsPsychSurveyHtmlForm,
+        html: '<div>'+
+                '<p style="font-size:1.75em;margin-bottom:2.5em">After watching the videos, do you wish to take part in this study?</p>'+
+                '<p style="font-size:1.25em">'+
+                    '<input type="radio" id="YES" name="takepart" value="study_yes" required>'+
+                    '<label style="margin-left:0.5em;margin-right:2em" for="YES">Yes, still agree to take part in the study.</label>'+
+                '</p>'+
+                '<p style="font-size:1.25em">'+
+                    '<input type="radio" id="NO" name="takepart" value="study_no">'+
+                        '<label style="margin-left:0.5em;" for="NO">No, I withdraw my consent to take part in this study.</label>'+
+                '</p>'+
+                '</div>',
+        button_label: 'Continue',
+        on_finish: function(data) {
+        takepart = jsPsych.data.get().last(1).values()[0].response.takepart;
+            if (takepart.includes('study_yes')) {
+            data.take_part = 1
+            } else {
+            data.take_part = 0
+            }
+        }
+    };
+timeline.push(take_part_redo)
+
+timeline.push(stop_leave)
+
+
+  var headphones = {
+        type: jsPsychHtmlButtonResponse,
+        stimulus:  `<p> Check your sound is working by playing the audio file and selecting the word you hear </p>
+                    <p> Please adjust your volume to ensure the stimulus is heard loudly and clearly (but is a comfortable volume) </p>
+                    <audio controls> <source src = "reversal_learning_stim/test_stim/microwave.mp3" type="audio/mpeg"> </audio>
+                    `,
+        choices: ["Fridge", "Tuna", "Microwave", "Apple", "Banana", "Plant", "Dog"]
+      }
+
+     n_incorrect=0
+     var headphone_feedback = {
+       type: jsPsychHtmlButtonResponse,
+       stimulus: function(data){
+         response = jsPsych.data.get().last(1).values()[0].response
+         incorrect_count = jsPsych.data.get().last(2).values()[0].n_incorrect
+         if(response==2){
+           return `<p> <b> Great!</b> Please keep your headphones on for the remainder of the experiment </p>`
+         } else if(incorrect_count==1){
+            return `<p> Sorry! It doesn't look like your headphones are working. </p>
+                  <p> Unfortunately, this means that you can't complete our experiment. </p>
+                  <p>Please return to Prolific and click <span style="color:#ff6663">"Stop without completing"</span> so we can offer your place to someone else.</p>`
+         }
+         else {
+           return `<p> That was incorrect. Please listen try again. </p>`}
+       },
+      choices: function(data){
+        response = jsPsych.data.get().last(1).values()[0].response
+         if(response==2){
+           return ["Continue"]
+        } else if(incorrect_count==1){
+            return []
+         } else {
+           return ["Try again"]}
+      },
+      on_finish: function(data){
+        response = jsPsych.data.get().last(1).values()[0].response
+        if(response==2){
+            n_incorrect=n_incorrect}
+        else {
+            n_incorrect=n_incorrect+1
+        }
+        data.n_incorrect=n_incorrect
+        }
+     }
+
+     var headphones_loop = {
+          timeline: [headphones, headphone_feedback],
+          loop_function: function(data){
+            response = jsPsych.data.get().last(2).values()[0].response
+            incorrect_count = jsPsych.data.get().last(1).values()[0].n_incorrect
+            if(response==2){
+                return false;}
+            else if(incorrect_count==2){
+                return false
+            }
+            else {
+                return true;
+            }
+            }
+      }
+      timeline.push(headphones_loop)
+
+      var bonus_payment_text = {
+            type: jsPsychHtmlButtonResponse,
+            stimulus: '<div style="font-size:1.25em;line-height:1.5;max-width:1440px;">'+
+                        '<p style="font-size:1.35em;text-align:center">By taking part in this study, you have the chance to win a bonus payment of £2!</p>'+
+                            '<p>You can increase your chances of winning the bonus payment by engaging well with the various parts of this study. '+
+                            'This includes reading the questions we ask you thoroughly and answering them honestly, following task instructions carefully, and not taking any extended breaks during the study, when not indicated.</p>'+
+                        '</div>',
+            choices: ['Begin study']}
+     timeline.push(bonus_payment_text)
+
+      /* start the experiment */
+      jatos.onLoad(() => {
+        prolific_id = jatos.urlQueryParameters.PROLIFIC_PID;
+        study_id = jatos.urlQueryParameters.STUDY_ID;
+        session_id = jatos.urlQueryParameters.SESSION_ID;
+        jsPsych.data.addProperties({prolific_id: prolific_id, study_id: study_id, session_id: session_id})
+        jsPsych.run(timeline);
+      });
+      
+  </script>
+</html>

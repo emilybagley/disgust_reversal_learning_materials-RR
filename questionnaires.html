@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Questionnaires</title>
+    <script src="https://unpkg.com/jspsych@7.3.3"></script>
+    <script src="jatos.js"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-button-response@1.1.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-image-keyboard-response@1.1.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-slider-response@1.1.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-preload@1.1.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-instructions@1.1.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-survey-multi-select@1.1.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-survey-likert@1.1.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-survey-multi-choice@1.1.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-audio-button-response@1.1.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-call-function@1.1.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-survey-text@1.1.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-survey@0.2.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-fullscreen@1.1.2"></script>
+    <link href="https://unpkg.com/jspsych@7.3.3/css/jspsych.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://unpkg.com/@jspsych/plugin-survey@0.2.0/css/survey.css">
+    <script type="text/javascript" src = "https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
+
+  <style>
+  </style>
+  </head>
+  <body></body>
+  <script>
+
+  //initiliase jsPsych  and preload stimuli
+      var jsPsych = initJsPsych({
+          on_trial_start: jatos.addAbortButton,
+          on_finish: function(){
+            //jatos.startNextComponent(jsPsych.data.get().json())
+            window.onbeforeunload = null;
+            let trialsJson = jsPsych.data.get().json();
+            jatos.submitResultData(trialsJson, jatos.startNextComponent);
+          },
+         /* on_finish: function() {
+              jsPsych.data.displayData();} //allows you to view data at the end of the experiment - useful for testing the task*/
+      });
+      
+      timeline = [];
+
+      var full_screen = {
+        type: jsPsychFullscreen,
+        fullscreen_mode: true,
+        message: `<p><b>Clicking continue will re-enter the experiment into fullscreen mode.</b></p>`
+      }
+      timeline.push(full_screen)
+
+      var disclaimer = {
+        type: jsPsychHtmlButtonResponse,
+        stimulus: '<p><b>During this section, you will be asked questions regarding your mental and physical health.</b></p>'+
+                     ' We understand that sometimes answering these questions '+
+                        'can make people aware of problems that they may be having with their health. If you do have any concerns about your health, please contact your '+
+                        'doctor (if in the UK, your GP), who can direct you to the appropriate local clinical service.</p>'+
+                    '<p> If you have any questions, please contact the Lead Investigator, Emily Bagley either through Prolific Message or email (emily.bagley@mrc-cbu.cam.ac.uk).</p>'+
+                    '</div>',
+        choices: ['Next'],
+        on_finish: function(data){
+            data.trial_var="disclaimer"
+}
+};
+timeline.push(disclaimer)
+
+    // Disgust
+var disgust_likert_1 = ["Strongly disagree", "Mildly disagree", "Neither agree nor disagree", "Mildly agree", "Strongly agree"];
+var DS_R_1 = {
+  type: jsPsychSurveyLikert,
+  preamble: `<br><p><b>Please indicate how much you agree with each of the following statements, or how true it is about you.</b></p>`,
+  questions: [
+    {prompt: "I might be willing to try eating monkey meat, under some circumstances.", labels: disgust_likert_1, required: true, name: "monkey meat"},
+    {prompt: "It would bother me to be in a science class, and to see a human hand preserved in a jar. ", labels: disgust_likert_1, required: true, name: "human hand"},
+    {prompt: "It bothers me to hear someone clear a throat full of mucous. ", labels: disgust_likert_1, required: true, name: "clear throat"},
+    {prompt: "I never let any part of my body touch the toilet seat in public restrooms", labels: disgust_likert_1, required: true, name: "public restroom"},
+    {prompt: "I would go out of my way to avoid walking through a graveyard. ", labels: disgust_likert_1, required: true, name: "graveyard"},
+    {prompt: "Seeing a cockroach in someone else's house doesn't bother me. ", labels: disgust_likert_1, required: true, name: "cockroach"},
+    {prompt: "It would bother me tremendously to touch a dead body. ", labels: disgust_likert_1, required: true, name: "dead body"},
+    {prompt: "If I see someone vomit, it makes me sick to my stomach. ", labels: disgust_likert_1, required: true, name: "vomit"},
+    {prompt: "I probably would not go to my favorite restaurant if I found out that the cook had a cold. ", labels: disgust_likert_1, required: true, name: "common cold"},
+    {prompt: "It would not upset me at all to watch a person with a glass eye take the eye out of the socket.", labels: disgust_likert_1, required: true, name: "eyeball"},
+    {prompt: "It would bother me to see a rat run across my path in a park. ", labels: disgust_likert_1, required: true, name: "rat"},
+    {prompt: "I would rather eat a piece of fruit than a piece of paper ", labels: disgust_likert_1, required: true, name: "fruit vs paper"},
+    {prompt: "Even if I was hungry, I would not drink a bowl of my favorite soup if it had been stirred by a used but thoroughly washed flyswatter. ", labels: disgust_likert_1, required: true, name: "fly swatter"},
+    {prompt: "It would bother me to sleep in a nice hotel room if I knew that a man had died of a heart attack in that room the night before. ", labels: disgust_likert_1, required: true, name: "heart attack"},
+    {prompt: "Click strongly disagree", labels: disgust_likert_1, required: true, name: "TRICK: strongly disagree"}
+  ],
+  randomize_question_order: true,
+  required: true,
+  on_finish: function(data){
+            data.trial_var="DS_R_1"
+}
+  
+};
+
+var disgust_likert_2 = ["Not disgusting at all", "Slightly disgusting", "Moderately disgusting", "Very disgusting", "Extremely disgusting"]
+var DS_R_2 = {
+  type: jsPsychSurveyLikert,
+  preamble: `<br><p><b>How disgusting would you find each of the following experiences? </b></p>`,
+  questions: [
+    {prompt: " You see maggots on a piece of meat in an outdoor garbage pail. ", labels: disgust_likert_2, required: true, name: "maggots"},
+    {prompt: "You see a person eating an apple with a knife and fork", labels: disgust_likert_2, required: true, name: "knife and fork"},
+    {prompt: "While you are walking through a tunnel under a railroad track, you smell urine. ", labels: disgust_likert_2, required: true, name: "urine"},
+    {prompt: "You take a sip of soda, and then realize that you drank from the glass that an aquaintance of yours had been drinking from. ", labels: disgust_likert_2, required: true, name: "shared glass"},
+    {prompt: "Your friend's pet cat dies, and you have to pick up the dead body with your bare hands. ", labels: disgust_likert_2, required: true, name: "dead cat"},
+    {prompt: "You see someone put ketchup on vanilla ice cream, and eat it. ", labels: disgust_likert_2, required: true, name: "ketchup on ice-cream"},
+    {prompt: "You see a man with his intestines exposed after an accident. ", labels: disgust_likert_2, required: true, name: "intenstines exposed"},
+    {prompt: "You discover that a friend of yours changes underwear only once a week. ", labels: disgust_likert_2, required: true, name: "underwear"},
+    {prompt: "A friend offers you a piece of chocolate shaped like dog-doo. ", labels: disgust_likert_2, required: true, name: "poo chocolate"},
+    {prompt: "You accidentally touch the ashes of a person who has been cremated. ", labels: disgust_likert_2, required: true, name: "cremation"},
+    {prompt: "You are about to drink a glass of milk when you smell that it is spoiled. ", labels: disgust_likert_2, required: true, name: "spoilt milk"},
+    {prompt: "As part of a sex education class, you are required to inflate a new unlubricated condom, using your mouth", labels: disgust_likert_2, required: true, name: "condom"},
+    {prompt: "You are walking barefoot on concrete, and you step on an earthworm.  ", labels: disgust_likert_2, required: true, name: "earthworm"},
+    {prompt: "Click moderately disgusting", labels: disgust_likert_2, required: true, name: "TRICK: moderately disgusting"}
+  ],
+  randomize_question_order: true,
+  required: true,
+  on_finish: function(data){
+            data.trial_var="DS_R_2"
+}
+  
+};
+
+var DS_R ={
+  timeline: [DS_R_1, DS_R_2],
+}
+
+var STAI_likert = ["Almost never", "Sometimes", "Often", "Almost always"]
+var STAI_T = {
+  type: jsPsychSurveyLikert,
+  preamble: `<br><p>Some statements that people have used to describe their feelings are given below. Read each 
+            statement and then select an option to <b>indicate how you generally feel</b>. There 
+            are no right or wrong answers. Do not spend too much time on a single statement, but give the answer that comes closest 
+            to how you generally feel.</b></p>`,
+  questions: [
+    {prompt: "I feel fine", labels: STAI_likert, required: true, name: "fine"},
+    {prompt: "I tire quickly", labels: STAI_likert, required: true, name: "tired"},
+    {prompt: "I feel like crying", labels: STAI_likert, required: true, name: "crying"},
+    {prompt: "I wish I could be as happy as others seem to be", labels: STAI_likert, required: true, name: "happy as others"},
+    {prompt: "I am losing opportunities because I cannot make decisions fast", labels: STAI_likert, required: true, name: "slow decisions"},
+    {prompt: "I feel rested", labels: STAI_likert, required: true, name: "rested"},
+    {prompt: "I am calm", labels: STAI_likert, required: true, name: "calm"},
+    {prompt: "I feel that difficulties are piling up in such a way that I cannot overcome them", labels: STAI_likert, required: true, name: "piling up"},
+    {prompt: "I worry too much about things that do not really matter", labels: STAI_likert, required: true, name: "worry"},
+    {prompt: "I am happy", labels: STAI_likert, required: true, name: "happy"},
+    {prompt: "I am inclined to take things hard", labels: STAI_likert, required: true, name: "take things hard"},
+    {prompt: "I lack self-confidence", labels: STAI_likert, required: true, name: "self confidence"},
+    {prompt: "I feel secure", labels: STAI_likert, required: true, name: "secure"},
+    {prompt: "I try to avoid facing a crisis or difficulty", labels: STAI_likert, required: true, name: "avoid crisis"},
+    {prompt: "I feel blue", labels: STAI_likert, required: true, name: "blue"},
+    {prompt: "I am content", labels: STAI_likert, required: true, name: "content"},
+    {prompt: "Some unimportant thoughts run through my mind and bother me", labels: STAI_likert, required: true, name: "bothered by unimportant things"},
+    {prompt: "I take disappointments so keenly that I cannot get them out of my mind", labels: STAI_likert, required: true, name: "dissapointment"},
+    {prompt: "I am a steady person", labels: STAI_likert, required: true, name: "steady"},
+    {prompt: "I become tense and upset when I think about my current concerns", labels: STAI_likert, required: true, name: "tense and upset"},
+    {prompt: "I believe the sea is blue", labels: STAI_likert, required: true, name: "TRICK: almost always"}
+  ],
+  randomize_question_order: true,
+  on_finish: function(data){
+            data.trial_var="STAI_T"
+}
+}
+
+
+var SCOFF = {
+    type: jsPsychSurveyMultiChoice,
+    preamble: `<p><b>The next set of questions concern your eating behaviours.</b></p>`,
+    questions: [{
+      prompt: "Do you ever make yourself sick because you feel uncomfortably full?",
+      options: ["Yes", "No"],
+      required: true,
+      horizontal: false,
+      name: "make yourself sick"
+    },
+    {
+      prompt: "Do you worry you have lost control over how much you eat?",
+      options: ["Yes", "No"],
+      required: true,
+      horizontal: false,
+      name: "lost control over eating"
+    },
+    {
+      prompt: "Have you recently lost more than one stone (approx. 6kg) in a three month period?",
+      options: ["Yes", "No"],
+      required: true,
+      horizontal: false,
+      name: "lost more than a stone"
+    },
+    {
+      prompt: "Do you believe yourself to be fat when others say you are too thin?",
+      options: ["Yes", "No"],
+      required: true,
+      horizontal: false,
+      name: "believe you are fat"
+    },
+    {
+      prompt: "Would you say that food dominates your life?",
+      options: ["Yes", "No"],
+      required: true,
+      horizontal: false,
+      name: "food dominates life"
+    },
+    {
+      prompt: "Do you work for 25 hours a day?",
+      options: ["Yes", "No"],
+      required: true,
+      horizontal: false,
+      name: "TRICK: 25 hours a day",
+    },
+  ],
+  randomize_question_order: true,
+  on_finish: function(data){
+            data.trial_var="SCOFF"
+}
+}
+
+var PHQ_labels = [`<p><b>0</b><p>
+                    <p>Would not avoid it</p>`,
+                    `<p><b>1</b></p>`,
+                    `<p><b>2</b><p>
+                    <p>Slightly avoid it</p>`,
+                    `<p><b>3</b></p>`,
+                    `<p><b>4</b><p>
+                    <p>Definitely avoid it</p>`, 
+                    `<p><b>5</b></p>`,
+                    `<p><b>6</b><p>
+                    <p>Markedly avoid it</p>`, 
+                    `<p><b>7</b></p>`,
+                    `<p><b>8</b><p>
+                    <p>Always avoid it</p>`, ]
+var PHQ_blood ={
+    type: jsPsychSurveyLikert,
+    preamble: `<p><b>Use this scale to indicate how much you would avoid each of the situations listed below because of fear or other unpleasant feelings:</b><p>`,
+    questions: [{prompt: "Injections or minor surgery", name: "Injections or minor surgery", labels: PHQ_labels, required: true},
+                {prompt: "Hospitals", name: "Hospitals", labels: PHQ_labels, required: true},
+                {prompt: "Sight of blood", name: "Sight of blood", labels: PHQ_labels, required: true},
+                {prompt: "Thought of injury or illness", name: "Thought of injury or illness", labels: PHQ_labels, required: true},
+                {prompt: "Going to the dentist", name: "Going to the dentist", labels: PHQ_labels, required: true},
+                {prompt: "Click 'Would not avoid it'.", labels: PHQ_labels, required: true, name: "TRICK: Would not avoid it"}],
+    on_finish: function(data){
+            data.trial_var="PHQ_blood"
+}
+}
+
+var SPQ = { //shortened
+    type: jsPsychSurveyMultiChoice,
+    preamble: `<p><b>For each of the following statements, indicate whether it is true (yes) or false (no) for you.</b></p>`,
+    questions: [{
+      prompt: "I avoid going to parks or on camping trips because there may be spiders about.",
+      options: ["True", "False"],
+      required: true,
+      horizontal: false,
+      name: "camping"
+    },
+    {
+      prompt: "I would feel some anxiety holding a toy spider in my hand.",
+      options: ["True", "False"],
+      required: true,
+      horizontal: false,
+      name: "toy spider"
+    },
+    {
+      prompt: "I dislike looking at pictures of spiders in a magazine.",
+      options: ["True", "False"],
+      required: true,
+      horizontal: false,
+      name: "magazine"
+    },
+    {
+      prompt: "If there is a spider on the ceiling over my bed, I cannot go to sleep unless someone kills it for me.",
+      options: ["True", "False"],
+      required: true,
+      horizontal: false,
+      name: "ceiling"
+    },
+    {
+      prompt: "I am terrified by the thought of touching a harmless spider.",
+      options: ["True", "False"],
+      required: true,
+      horizontal: false,
+      name: "touching"
+    },
+    {
+      prompt: "If someone says that there are spiders anywhere about, I become alert and on edge.",
+      options: ["True", "False"],
+      required: true,
+      horizontal: false,
+      name: "alert and edgy"
+    },
+    {
+      prompt: "I would not go down to the basement to get something if I thought there might be spiders down there.",
+      options: ["True", "False"],
+      required: true,
+      horizontal: false,
+      name: "basement"
+    },
+    {
+      prompt: "I would feel uncomfortable if a spider crawled out of my shoe as I took it out of the closet to put it on.",
+      options: ["True", "False"],
+      required: true,
+      horizontal: false,
+      name: "shoe"
+    },
+    {
+      prompt: "When I see a spider, I feel tense and restless.",
+      options: ["True", "False"],
+      required: true,
+      horizontal: false,
+      name: "tense and restless"
+    },
+    {
+      prompt: "I feel sick when I see a spider.",
+      options: ["True", "False"],
+      required: true,
+      horizontal: false,
+      name: "feel sick"
+    },
+    {
+      prompt: "I shudder when I think of spiders.",
+      options: ["True", "False"],
+      required: true,
+      horizontal: false,
+      name: "shudder"
+    },
+    {
+      prompt: "The way spiders move is repulsive.",
+      options: ["True", "False"],
+      required: true,
+      horizontal: false,
+      name: "repulsive move"
+    },
+    {
+      prompt: "If I came upon a spider while cleaning the attic I would probably run.",
+      options: ["True", "False"],
+      required: true,
+      horizontal: false,
+      name: "cleaning the attic"
+    },
+    {
+      prompt: "I would prefer not to finish a story if something about spiders was introduced into the plot.",
+      options: ["True", "False"],
+      required: true,
+      horizontal: false,
+      name: "story"
+    },
+    {
+      prompt: "Even if I was late for a very important appointment, the thought of spiders would stop me from taking a shortcut through an underpass.",
+      options: ["True", "False"],
+      required: true,
+      horizontal: false,
+      name: "underpass"
+    },
+    {
+      prompt: "I have never used a computer.",
+      options: ["True", "False"],
+      required: true,
+      horizontal: false,
+      name: "TRICK: never used a computer"
+    },
+  ],
+  randomize_question_order: true,
+  on_finish: function(data){
+            data.trial_var="SPQ"
+}
+}
+
+var OC= {
+  type: jsPsychSurveyMultiChoice,
+  preamble: `<p><b> The next questions ask about your experiences with thoughts and behaviors related to contamination over the last month. Keep 
+              in mind that your experiences might be different than the examples listed above. </b></p>`,
+  questions: [
+    { prompt: "About how much time have you spent each day thinking about contamination and engaging in washing or cleaning behaviors because of contamination?",
+    options: [
+      `<b>0</b> &emsp;None at all`,
+      `<b>1</b> &emsp;Less than 1 hour each day`,
+      `<b>2</b> &emsp;Between 1 and 3 hours each day`,
+      `<b>3</b> &emsp;Between 3 and 8 hours each day`,
+      `<b>4</b> &emsp;8 hours or more each day`,
+    ],
+    required: true,
+    horizontal: false,
+    name: "time spent on contamination"
+  },
+  { prompt: "To what extent have you avoided situations in order to prevent concerns with contamination or having to spend time washing, cleaning, or showering?",
+    options: [
+      `<b>0</b> &emsp;None at all`,
+      `<b>1</b> &emsp;A little avoidance`,
+      `<b>2</b> &emsp;A moderate amount of avoidance`,
+      `<b>3</b> &emsp;A great deal of avoidance`,
+      `<b>4</b> &emsp;Extreme avoidance of nearly all things`,
+    ],
+    required: true,
+    horizontal: false,
+    name: "avoid contamination"
+  },
+  { prompt: "If you had thoughts about contamination but could not wash, clean, or shower (or otherwise remove the contamination), how distressed or anxious did you become? ",
+    options: [
+      `<b>0</b> &emsp;Not at all distressed/anxious`,
+      `<b>1</b> &emsp;Mildly distressed/anxious`,
+      `<b>2</b> &emsp;Moderately distressed/anxious`,
+      `<b>3</b> &emsp;Severely distressed/anxious`,
+      `<b>4</b> &emsp;Extremely distressed/anxious`,
+    ],
+    required: true,
+    horizontal: false,
+    name: "distress from contamination"
+  },
+  { prompt: "To what extent has your daily routine (work, school, self-care, social life) been disrupted by contamination concerns and excessive washing, showering, cleaning, or avoidance behaviors?",
+    options: [
+      `<b>0</b> &emsp;No disruption at all`,
+      `<b>1</b> &emsp;A little disruption, but I mostly function well`,
+      `<b>2</b> &emsp;Many things are disrupted, but I can still manage`,
+      `<b>3</b> &emsp;My life is disrupted in many ways and I have trouble managing`,
+      `<b>4</b> &emsp;My life is completely disrupted and I cannot function at all`,
+    ],
+    required: true,
+    horizontal: false,
+    name: "disruption from contamination"
+  },
+  { prompt: "How difficult is it for you to disregard thoughts about contamination and refrain from behaviors such as washing, showering, cleaning, and other decontamination routines when you try to do so?",
+    options: [
+      `<b>0</b> &emsp;Not at all difficult`,
+      `<b>1</b> &emsp;A little difficult`,
+      `<b>2</b> &emsp;Moderately difficult`,
+      `<b>3</b> &emsp;Very difficult`,
+      `<b>4</b> &emsp;Extremely difficult`,
+    ],
+    required: true,
+    horizontal: false,
+    name: "difficulty disregarding thoughts"
+  }],
+randomize_question_order: true,
+on_finish: function(data){
+            data.trial_var="OC"
+}}
+
+
+questionnaires = jsPsych.randomization.shuffle([DS_R, STAI_T, SCOFF, PHQ_blood, SPQ, OC]); 
+var run_questionnaires ={
+  timeline: questionnaires,
+}
+timeline.push(run_questionnaires)
+
+var psychiatric_diagnosis = {
+  type: jsPsychSurveyText,
+  questions: [{prompt: `<p> Have you ever been received a psychiatric diagnosis (e.g., of a mental health problem)?</p>
+                        <p> If yes, please specify in the box below </p>`, rows: 3}],
+  on_finish: function(data){
+            data.trial_var="psychiatric diagnosis"}
+}
+timeline.push(psychiatric_diagnosis)
+
+
+
+var questionnaire_goodbye = {
+          type: jsPsychHtmlButtonResponse,
+          stimulus: `
+          <p><b>That's all the questions we have for you!</b><p>
+            <p> We understand that some questions asked in this study may have led to you to reflect on your mental and physical health. </p>
+            <p>If you have any concerns about your mental or physical health, please contact your doctor (if in the UK, your GP), who can direct you to the appropriate local clinical service.</p>
+            <p> Alternatively you can also find advice and support online, though the charity MIND (https://www.mind.org.uk/information-support/) or by talking to the Samaritans (https://www.samaritans.org/, or call 116 123 for free).</p>
+            <br>
+            <p>Click continue to start the final (very brief) section of the experiment!</p></b>
+            `,
+          choices: ['Continue'],
+          on_finish: function(data){
+            data.trial_var="questionnaire_goodbye"
+          }
+      };
+
+  timeline.push(questionnaire_goodbye);
+
+
+// start the experiment
+      /* start the experiment */
+      jatos.onLoad(() => {
+        prolific_id = jatos.urlQueryParameters.PROLIFIC_PID;
+        study_id = jatos.urlQueryParameters.STUDY_ID;
+        session_id = jatos.urlQueryParameters.SESSION_ID;
+        jsPsych.data.addProperties({prolific_id: prolific_id, study_id: study_id, session_id: session_id})
+        jsPsych.run(timeline);
+      });
+  </script>
+</html>
