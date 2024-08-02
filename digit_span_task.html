@@ -17,14 +17,8 @@
 
 /*
     This is a web-based digit span working memory test.
-    It is modelled after the forward digit span test described in Woods et al (2011) [https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2978794/].
-    However, users can easily customize this test for their own purposes.
-    Easily customizable variables have been listed below. For further changes to the test, knowledge of JavaScipt may be required.
-
-    For smooth functioning of the test, make sure all the associated github files within the repository have been downloaded (especially the folder named 'jspsych-6.0.4').
-    Results from this test will be automatically downloaded into the downloads folder of your desktop.
-
-    For further details, please refer to the README.
+    It is taken from Lutrha and Todd (2019). Github: https://github.com/mahiluthra/working_memory_tests/tree/master 
+    They modelled the task from the forward digit span test described in Woods et al (2011) [https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2978794/].
 */
 
 
@@ -70,7 +64,7 @@ var instructions = {
   var instructions_node = {
       type: 'instructions',
       pages: function(){
-        pageOne = "<div style='font-size:20px;'>You have completed the practice trials. <br><br> If you have further questions about the task, ask the researcher now.<br> If you are clear about the task, click 'Next' to proceed to the main trials.<br><br></div>"
+        pageOne = "<div style='font-size:20px;'>You have completed the practice trials. <br> Click 'Next' to proceed to the main trials.<br><br></div>"
         return [pageOne]
       },
       allow_backward: false,
