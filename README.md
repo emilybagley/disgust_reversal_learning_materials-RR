@@ -14,6 +14,7 @@
 <p>The videos we are using are (as named in the Cowen and Keltner database): </p>
   <p> &nbsp;&nbsp; &nbsp; &nbsp;  0046.mp4, 0374.mp4, 0548.mp4, 0877.mp4, 1202.mp4 (5 fear-inducing videos) </p>
   <p> &nbsp; &nbsp;&nbsp; &nbsp;  0888.mp4, 1414.mp4, 1765.mp4, 1987.mp4, 2106.mp4 (5-disgust inducing videos) </p>
+  <p> &nbsp;&nbsp;&nbsp;&nbsp; 1686.mp4 (neutral/'safe' video used in all three blocks of the reversal learning task)</p>
   <br>
   <p>Similarly, the 'fractals' used in the reversal learning task are not shared here, but are publically available via this link: https://github.com/smathot/materials_for_P0010.5/tree/master/stimuli/exp2/images .</p>
   <p>The fractals used are (as named in the linked github repository):</p>
