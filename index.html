@@ -88,8 +88,6 @@ mark.BLUE {
                 reversals: can control number, and occur after a string of correct answers
                 with added attention checks each round
 
-                Has attention checks within this --> plays or shows a word every set number of trials
-
                 do this 3 times - for three randomly ordered blocks (fear, disgust and points)
             4) return to ratings section 
       */
@@ -110,7 +108,7 @@ mark.BLUE {
 
       ///Preload stimuli ///
       var images = [`reversal_learning_stim/US/BLUE.png`, `reversal_learning_stim/US/YELLOW.png`,
-                    'reversal_learning_stim/fractal/F000.png', 'reversal_learning_stim/fractal/F009.png', `reversal_learning_stim/fractal/F010.png`, 'reversal_learning_stim/fractal/F012.png', 'reversal_learning_stim/fractal/F015.png', 'reversal_learning_stim/fractal/F018.png', 'reversal_learning_stim/fractal/F020.png', 'reversal_learning_stim/fractal/FO14.png',
+                    'reversal_learning_stim/fractal/F000.png', 'reversal_learning_stim/fractal/F009.png', `reversal_learning_stim/fractal/F010.png`, 'reversal_learning_stim/fractal/F012.png', 'reversal_learning_stim/fractal/F015.png', 'reversal_learning_stim/fractal/F018.png', 'reversal_learning_stim/fractal/F020.png', 'reversal_learning_stim/fractal/F014.png',
                     `reversal_learning_stim/US/disgust/0888.gif`, `reversal_learning_stim/US/disgust/1414.gif`, `reversal_learning_stim/US/disgust/1765.gif`, `reversal_learning_stim/US/disgust/1987.gif`, `reversal_learning_stim/US/disgust/2106.gif`,
                     `reversal_learning_stim/US/fear/0046.gif`, `reversal_learning_stim/US/fear/0374.gif`, `reversal_learning_stim/US/fear/0548.gif`, `reversal_learning_stim/US/fear/0877.gif`, `reversal_learning_stim/US/fear/1202.gif`, `reversal_learning_stim/US/fear/1686.gif`, 'reversal_learning_stim/US/sad.gif']
       
@@ -141,8 +139,6 @@ mark.BLUE {
       points_us=`<h1><div><b>Lose 10 points :(   </b></div></h1>`+`style="position: absolute; top: 200px; left: 90px`+
                 `<img src="reversal_learning_stim/US/money_burn.gif"`+`${img_style}`
       safe_us=`<img src = "reversal_learning_stim/US/1686.gif" style="width:400px; height: 400px; position: absolute; top: 100px; left: 100px" </img>`
-      money_safe_us=`<h1><div><b>Lose 0 points :)  </b></div></h1>`+`style="position: absolute; top: 200px; left: 100px`+
-                    `<img src="reversal_learning_stim/US/money.gif"`+`${img_style}`
       scream = `<audio autoplay>
             <source src = "reversal_learning_stim/US/scream.mp3" type="audio/mpeg">
          </audio>`
