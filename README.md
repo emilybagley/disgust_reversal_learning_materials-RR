@@ -10,7 +10,7 @@
 <br>
 <br>
 <p><b>Stimuli/fractals</b></p>
-<p> The 5 fear and 5 disgust inducing videos used in the video ratings and reversal learning task are not shared here as they were ascertained from the Cowen and Keltner database - which is accesible via this online form: https://docs.google.com/forms/d/e/1FAIpQLScf9XVemSUWz6kUWySUdaQ5pxwqs8mugngrkBoLmX-3DMX1KA/viewform .</p>
+<p> The 5 fear and 5 disgust inducing videos used in the video ratings and reversal learning task are not shared here as they were ascertained from the Cowen and Keltner database - which is accessible via this online form: https://docs.google.com/forms/d/e/1FAIpQLScf9XVemSUWz6kUWySUdaQ5pxwqs8mugngrkBoLmX-3DMX1KA/viewform .</p>
 <p>The videos we are using are (as named in the Cowen and Keltner database): </p>
   <p> &nbsp; &nbsp; &nbsp; &nbsp;  0046.mp4, 0374.mp4, 0548.mp4, 0877.mp4, 1202.mp4 (5 fear-inducing videos) </p>
   <p> &nbsp; &nbsp; &nbsp; &nbsp;  0888.mp4, 1414.mp4, 1765.mp4, 1987.mp4, 2106.mp4 (5-disgust inducing videos) </p>
