@@ -741,8 +741,8 @@ mark.BLUE {
       
 
       /* define the three types of feedback and put in a random order */
-      //var feedback_type = ["Points", "Disgust", "Fear"],
-      var feedback_type = ["Points"]
+      var feedback_type = ["Points", "Disgust", "Fear"],
+      //var feedback_type = ["Points"]
       feedback_type = jsPsych.randomization.shuffle(feedback_type);  
       disgust_stimulus = []
       fear_stimulus = []
@@ -753,7 +753,7 @@ mark.BLUE {
           stimulus: function(data){
               response = jsPsych.data.get().last(1).values()[0].response
               stimulus = jsPsych.data.get().last(1).values()[0].stimulus
-              white='reversal_learning_stim/fractal/WHITE.png'
+              white='reversal_learning_stim/fractal/WHITE.png' //just a white square
               empty=`<img src='${white}'</img>`
               if(response=='f'){
                   //display what was on the left
