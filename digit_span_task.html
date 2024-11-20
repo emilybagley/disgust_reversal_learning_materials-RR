@@ -190,7 +190,7 @@ timeline.push({
 timeline = timeline.concat([instructions, demo_procedure, instructions_node, test_procedure])
 timeline.push(conclusion)
 
-/* start the experiment */
+/* start the experiment */ //remove if not using jatos
 jatos.onLoad(function () {
   prolific_id = jatos.urlQueryParameters.PROLIFIC_PID;
   study_id = jatos.urlQueryParameters.STUDY_ID;
@@ -206,6 +206,13 @@ jatos.onLoad(function () {
     }
   });
 });
+
+/* if not using jatos
+var jsPsych = initJsPsych({
+          on_finish: function() {
+              jsPsych.data.displayData(); //allows you to view data at the end of the experiment - useful for testing the task
+            }
+jsPsych.run(timeline); */
 
 
 </script>

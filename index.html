@@ -92,7 +92,7 @@ mark.BLUE {
             4) return to ratings section 
       */
 
-      /* initiliase jsPsych  and preload stimuli*/
+      /* initiliase jsPsych  and preload stimuli*/ //remove if not running on jatos
       var jsPsych = initJsPsych({
           on_trial_start: jatos.addAbortButton,
           on_finish: function(){
@@ -102,26 +102,41 @@ mark.BLUE {
           } ,
       });
       
+      /*add in if not running using jatos 
+      var jsPsych = initJsPsych({
+          on_finish: function() {
+              jsPsych.data.displayData(); //allows you to view data at the end of the experiment - useful for testing the task
+            }
+      }); */
+
       /*create timeline */
       var timeline = [];
 
 
       ///Preload stimuli ///
-      var images = [`reversal_learning_stim/US/BLUE.png`, `reversal_learning_stim/US/YELLOW.png`,
-                    'reversal_learning_stim/fractal/F000.png', 'reversal_learning_stim/fractal/F009.png', `reversal_learning_stim/fractal/F010.png`, 'reversal_learning_stim/fractal/F012.png', 'reversal_learning_stim/fractal/F015.png', 'reversal_learning_stim/fractal/F018.png', 'reversal_learning_stim/fractal/F020.png', 'reversal_learning_stim/fractal/F014.png',
-                    `reversal_learning_stim/US/disgust/0888.gif`, `reversal_learning_stim/US/disgust/1414.gif`, `reversal_learning_stim/US/disgust/1765.gif`, `reversal_learning_stim/US/disgust/1987.gif`, `reversal_learning_stim/US/disgust/2106.gif`,
-                    `reversal_learning_stim/US/fear/0046.gif`, `reversal_learning_stim/US/fear/0374.gif`, `reversal_learning_stim/US/fear/0548.gif`, `reversal_learning_stim/US/fear/0877.gif`, `reversal_learning_stim/US/fear/1202.gif`, `reversal_learning_stim/US/fear/1686.gif`, 'reversal_learning_stim/US/sad.gif']
+      var images = ["reversal_learning_stim/US/BLUE.png", "reversal_learning_stim/US/YELLOW.png",
+                    'reversal_learning_stim/fractal/F000.png', 'reversal_learning_stim/fractal/F009.png', "reversal_learning_stim/fractal/F010.png", 'reversal_learning_stim/fractal/F012.png', 'reversal_learning_stim/fractal/F015.png', 'reversal_learning_stim/fractal/F018.png', 'reversal_learning_stim/fractal/F020.png', 'reversal_learning_stim/fractal/F014.png',
+                    "reversal_learning_stim/US/disgust/0888.gif", "reversal_learning_stim/US/disgust/1414.gif", "reversal_learning_stim/US/disgust/1765.gif", "reversal_learning_stim/US/disgust/1987.gif", "reversal_learning_stim/US/disgust/2106.gif",
+                    "reversal_learning_stim/US/fear/0046.gif", "reversal_learning_stim/US/fear/0374.gif", "reversal_learning_stim/US/fear/0548.gif", "reversal_learning_stim/US/fear/0877.gif", "reversal_learning_stim/US/fear/1202.gif", "reversal_learning_stim/US/1686.gif", 'reversal_learning_stim/US/sad.gif']
       
-      var audios = [`reversal_learning_stim/US/scream.mp3`, `reversal_learning_stim/US/vomit.mp3`, `reversal_learning_stim/US/0716-2_crop.wav`, `reversal_learning_stim/US/buzzer.mp3`, `reversal_learning_stim/test_stim/apple.mp3`, `reversal_learning_stim/US/buzzer.mp3`, `reversal_learning_stim/test_stim/microwave.mp3`, `reversal_learning_stim/test_stim/river.mp3 `,
-                    `reversal_learning_stim/test_stim/spoon.mp3`, `reversal_learning_stim/test_stim/tuna.mp3`]
+      var audios = ["reversal_learning_stim/US/scream.mp3", "reversal_learning_stim/US/vomit.mp3", "reversal_learning_stim/US/0716-2_crop.wav", "reversal_learning_stim/US/buzzer.mp3", "reversal_learning_stim/test_stim/apple.mp3", "reversal_learning_stim/US/buzzer.mp3", "reversal_learning_stim/test_stim/microwave.mp3", "reversal_learning_stim/test_stim/river.mp3 ",
+                    "reversal_learning_stim/test_stim/spoon.mp3", "reversal_learning_stim/test_stim/tuna.mp3"]
       
       var preload = {
         type: jsPsychPreload,
         images: images,
         audio: audios,
-        show_detailed_errors: true
+        show_progress_bar: true,
+        continue_after_error: false,
+        error_message: `<p><b>The experiment has failed to load</b></p>
+                        <p>Please return to Prolific and click <span style="color:#ff6663">"Stop without completing"</span> so we can offer your place to someone else.</p>`,
+        on_error: function(file) {
+          console.log('Error: ',file);
+      },
+        on_success: function(file) {
+          console.log('Loaded: ',file);}
       }
-      jsPsych.run(preload)
+      timeline.push(preload)
 
       ///Set stimuli variables ///
       img_style=`style="width:400px; height: 400px; position: absolute; top: 100px; left: 100px" </img>`
@@ -1121,7 +1136,7 @@ mark.BLUE {
     timeline.push(goodbye);
     
     
-      /* start the experiment */
+      /* start the experiment */ //remove if not using jatos
       jatos.onLoad(() => {
         prolific_id = jatos.urlQueryParameters.PROLIFIC_PID;
         study_id = jatos.urlQueryParameters.STUDY_ID;
@@ -1130,5 +1145,8 @@ mark.BLUE {
         jsPsych.run(timeline);
       });
       
+
+      /* add if not using jatos
+      jsPsych.run(timeline); */
   </script>
 </html>
