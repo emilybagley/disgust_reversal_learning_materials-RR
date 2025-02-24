@@ -1091,7 +1091,13 @@ mark.BLUE {
           };
         //once you get to the number of reversals you're having, will quit this for-loop and the block will end (will have an attention check and a break page, before starting next block)
 
-        timeline.push(attention_check) // final attention check after last round
+        // final attention check after last round and points rating (if final block was points)
+        if (feedback_type[j-1]=="Points"){
+                timeline.push(points_rate_stim)
+                timeline.push(attention_check);}
+        else{
+          timeline.push(attention_check)
+        }
 
         /* define thank you trial for reversal learning task */
         var reversal_thankyou_trial = { 
